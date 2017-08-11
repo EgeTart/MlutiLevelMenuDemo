@@ -1,0 +1,15 @@
+PODS:
+  - SnapKit (3.2.0)
+  - Unbox (2.5.0)
+
+DEPENDENCIES:
+  - SnapKit
+  - Unbox
+
+SPEC CHECKSUMS:
+  SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
+  Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
+
+PODFILE CHECKSUM: 2afc9fc87f87baa1b8004cb1adb95de5f9c058a9
+
+COCOAPODS: 1.2.1
