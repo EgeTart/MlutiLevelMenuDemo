@@ -12,7 +12,9 @@ import SnapKit
 class HomeViewController: UIViewController {
     
     private lazy var cityButton: UIButton = {
-        return self.createButton(title: "城市")
+        let button = self.createButton(title: "城市")
+        button.addTarget(self, action: #selector(presentMultiLevelMunu(sender:)), for: .touchUpInside)
+        return button
     }()
     
     private lazy var musicButton: UIButton = {
@@ -35,6 +37,12 @@ class HomeViewController: UIViewController {
         return self.createSeparateLine()
     }()
 
+    private lazy var multiLevelMenu: MultiLevelMenu = {
+        let multiLevelMenu = MultiLevelMenu()
+        multiLevelMenu.dataSource = self
+        multiLevelMenu.delegate = self
+        return multiLevelMenu
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,5 +112,47 @@ class HomeViewController: UIViewController {
         let line = UIView()
         line.backgroundColor = UIColor(white: 0.95, alpha: 1.0)
         return line
+    }
+    
+    @objc private func presentMultiLevelMunu(sender: UIButton) {
+        multiLevelMenu.isShowed ? multiLevelMenu.dismiss(animated: true) : multiLevelMenu.presnt(from: sender)
+    }
+}
+
+extension HomeViewController: MultiLevelMenuDataSource {
+    func numberOfLevel(of multiLevelMenu: MultiLevelMenu) -> Int {
+        return 3
+    }
+    
+    func firstLevelItems(of multiLevelMenu: MultiLevelMenu) -> [LeveItemProtocol]? {
+        return CityViewModel().cityArray
+    }
+}
+
+extension HomeViewController: MultiLevelMenuDelegate {
+    func multiLevelMenu(multiLevelMenu: MultiLevelMenu, backgroundColorForLevel level: Int) -> UIColor {
+        if level == 0 {
+            return UIColor(white: 0.92, alpha: 1.0)
+        } else if level == 1 {
+            return UIColor(white: 0.94, alpha: 1.0)
+        } else {
+            return UIColor(white: 0.96, alpha: 1.0)
+        }
+    }
+    
+    func multiLevelMenu(multiLevelMenu: MultiLevelMenu, widthRatioForLevel level: Int) -> CGFloat {
+        if level == 0 {
+            return 0.24
+        } else if level == 1 {
+            return 0.38
+        } else {
+            return 0.38
+        }
+    }
+    
+    func multiLevelMenu(multiLevelMenu: MultiLevelMenu, didSelectedLastLevel selectedLevelItems: [LeveItemProtocol]) {
+        for levelItem in selectedLevelItems {
+            print(levelItem.levelName)
+        }
     }
 }
